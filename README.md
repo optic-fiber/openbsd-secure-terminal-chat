@@ -1,2 +1,6 @@
 # openbsd-secure-terminal-chat
-A self-built, multi-user terminal chat for OpenBSD.  Connections only via Tor onion service. SSH key authentication,  no passwords, no shell for chat users. ~180 lines of C and shell.  Zero dependencies beyond OpenBSD base + tor.
+
+![License](https://img.shields.io/badge/license-MIT-blue)
+![Platform](https://img.shields.io/badge/platform-OpenBSD-orange)
+![Language](https://img.shields.io/badge/language-C%20%2B%20Shell-green)
+![Lines](https://img.shields.io/badge/size-~180%20LOC-lightgrey)
