@@ -29,16 +29,4 @@ Users connect through the Tor network and land directly in a full-screen termina
 - 🛡️ **Hardened** — ForceCommand, unprivileged dispatcher, pf firewall
 
 ---
-
-## Quick Start
-
-See **[INSTALL.md](INSTALL.md)** for the complete step-by-step guide.
-
-### Minimal setup (after OpenBSD + Tor):
-
-```bash
-cc -o chat src/chat.c
-doas cp chat /usr/local/bin/chat
-doas cp src/dispatcher.sh /usr/local/bin/chat-dispatcher
-doas chmod +x /usr/local/bin/chat-dispatcher
-doas -u _chatd /usr/local/bin/chat-dispatcher &
+# See **[INSTALL.md](INSTALL.md)** for the complete step-by-step guide.
