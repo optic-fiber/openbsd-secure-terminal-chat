@@ -1,28 +1,31 @@
 #!/bin/sh
-PIPE=/tmp/chat-pipe
-OUT=/tmp/chat-output
-LOG=/tmp/chat.log
+P=/tmp/chat-pipe
+O=/tmp/chat-output
+L=/tmp/chat.log
+M=1000
 
-[ -p "$PIPE" ] && rm -f "$PIPE"
-mkfifo "$PIPE"
-chown _chatd:chatusers "$PIPE"
-chmod 660 "$PIPE"
+[ -p "$P" ] && rm -f "$P"
+mkfifo "$P"
+chown _chatd:chatusers "$P"
+chmod 660 "$P"
 
-> "$OUT"
-chown _chatd:chatusers "$OUT"
-chmod 660 "$OUT"
+> "$O"
+chown _chatd:chatusers "$O"
+chmod 660 "$O"
 
-> "$LOG"
-chown _chatd:chatusers "$LOG"
-chmod 660 "$LOG"
-
-echo "Chat-Dispatcher started"
+[ -f "$L" ] || { > "$L"; chown _chatd:chatusers "$L"; chmod 660 "$L"; }
 
 while true; do
-    cat "$PIPE" | while IFS= read -r line; do
+    cat "$P" | while IFS= read -r line; do
         [ -z "$line" ] && continue
-        echo "$(date '+%H:%M') $line" >> "$LOG"
-        echo "$line" >> "$OUT"
+        echo "$line" >> "$L"
+        echo "$line" >> "$O"
+        if [ $(wc -l < "$L") -gt $M ]; then
+            tail -n $M "$L" > "$L.tmp"
+            mv "$L.tmp" "$L"
+            chown _chatd:chatusers "$L"
+            chmod 660 "$L"
+        fi
     done
     sleep 0.1
 done
